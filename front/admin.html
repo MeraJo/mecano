@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ميكانو - لوحة الإدارة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🔧</div>
+      <div>
+        <div class="logo-text">MECANO</div>
+        <div class="logo-sub">لوحة إدارة المحتوى</div>
+      </div>
+    </div>
+    <nav>
+      <a href="car-repair-1.html">صفحة التشخيص</a>
+      <a href="admin.html">لوحة الإدارة</a>
+    </nav>
+  </header>
+
+  <main class="admin-shell">
+    <section class="admin-hero">
+      <div class="hero-badge">🧰 إدارة البيانات</div>
+      <h1>لوحة تحكم ميكانو</h1>
+      <p>إنشاء وتعديل وحذف بيانات السيارات والأعطال والحلول مباشرة من واجهة واحدة.</p>
+      <div id="statusBar" class="status-bar">جاهز للعمل</div>
+    </section>
+
+    <section class="panel-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <h2>🚗 السيارات</h2>
+          <button class="btn btn-ghost" id="carsLoadBtn" type="button">تحديث القائمة</button>
+        </div>
+
+        <form id="carForm" class="form-grid">
+          <input id="carId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="carBrand" type="text" placeholder="الماركة" required />
+          <input id="carModel" type="text" placeholder="الموديل" required />
+          <input id="carEngineType" type="text" placeholder="نوع المحرك" />
+          <input id="carEngineSize" type="number" step="0.1" placeholder="سعة المحرك" />
+          <input id="carYear" type="number" placeholder="السنة" />
+          <div class="actions">
+            <button class="btn" type="submit" data-mode="create">إنشاء</button>
+            <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
+            <button class="btn btn-danger" type="button" id="carDeleteBtn">حذف</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>الماركة</th>
+                <th>الموديل</th>
+                <th>المحرك</th>
+                <th>السعة</th>
+                <th>السنة</th>
+              </tr>
+            </thead>
+            <tbody id="carsTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>🧩 الأعطال</h2>
+          <button class="btn btn-ghost" id="problemsLoadBtn" type="button">تحديث القائمة</button>
+        </div>
+
+        <form id="problemForm" class="form-grid">
+          <input id="problemId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="problemTitle" type="text" placeholder="عنوان العطل" required />
+          <textarea id="problemDescription" placeholder="وصف العطل" rows="3"></textarea>
+          <div class="actions">
+            <button class="btn" type="submit" data-mode="create">إنشاء</button>
+            <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
+            <button class="btn btn-danger" type="button" id="problemDeleteBtn">حذف</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>العنوان</th>
+                <th>الوصف</th>
+              </tr>
+            </thead>
+            <tbody id="problemsTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>🛠 الحلول</h2>
+        </div>
+
+        <form id="solutionForm" class="form-grid">
+          <input id="solutionId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="solutionProblemId" type="number" placeholder="Problem ID" required />
+          <textarea id="solutionText" placeholder="نص الحل" rows="3" required></textarea>
+          <div class="actions">
+            <button class="btn" type="submit" data-mode="create">إنشاء</button>
+            <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
+            <button class="btn btn-danger" type="button" id="solutionDeleteBtn">حذف</button>
+            <button class="btn btn-ghost" type="button" id="solutionsLoadBtn">عرض حسب المشكلة</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Problem ID</th>
+                <th>نص الحل</th>
+              </tr>
+            </thead>
+            <tbody id="solutionsTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>🔗 ربط السيارات بالأعطال</h2>
+        </div>
+
+        <form id="linkForm" class="form-grid">
+          <input id="linkCarId" type="number" placeholder="Car ID" required />
+          <input id="linkProblemId" type="number" placeholder="Problem ID" required />
+          <div class="actions">
+            <button class="btn" type="submit">إنشاء الربط</button>
+            <button class="btn btn-ghost" type="button" id="linksLoadBtn">عرض مشاكل السيارة</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>العطل</th>
+                <th>الوصف</th>
+                <th>الحلول</th>
+              </tr>
+            </thead>
+            <tbody id="linksTable"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    MECANO Admin Panel &copy; 2026
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>
