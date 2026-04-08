@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ميكانو - تشخيص السيارات</title>
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet"/>  
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🔧</div>
+    <div>
+      <div class="logo-text">MECANO</div>
+      <div class="logo-sub">تشخيص السيارات</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#">المحركات</a>
+    <a href="#">الفيديوهات</a>
+    <a href="#">تواصل معنا</a>
+  </nav>
+</header>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-badge">⚡ تشخيص فوري ودقيق</div>
+  <h1>اكتشف مشاكل سيارتك<br/><span>في ثوانٍ</span></h1>
+  <p>أدخل معلومات سيارتك واحصل على قائمة بالمشاكل الشائعة مع فيديوهات توضيحية للإصلاح</p>
+</section>
+
+<!-- ══════ FORM ══════ -->
+<div class="form-card">
+  <div class="form-row">
+    <div class="field">
+      <label><span>🚗</span> اسم السيارة (الماركة)</label>
+      <input type="text" id="carBrand" placeholder="مثال: Toyota, BMW, Renault..."/>
+    </div>
+    <div class="field">
+      <label><span>🏷️</span> الموديل</label>
+      <input type="text" id="carModel" placeholder="مثال: Corolla, Serie 3..."/>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label><span>⚙️</span> نوع المحرك</label>
+      <select id="engineType">
+        <option value="">-- اختر نوع المحرك --</option>
+        <option value="essence">بنزين (Essence)</option>
+        <option value="diesel">ديزل (Diesel)</option>
+        <option value="hybride">هجين (Hybride)</option>
+        <option value="electrique">كهربائي (Électrique)</option>
+        <option value="gpl">غاز (GPL)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label><span>🔩</span> سعة المحرك</label>
+      <select id="engineSize">
+        <option value="">-- اختر السعة --</option>
+        <option value="1.0">1.0 L</option>
+        <option value="1.2">1.2 L</option>
+        <option value="1.4">1.4 L</option>
+        <option value="1.5">1.5 L</option>
+        <option value="1.6">1.6 L</option>
+        <option value="1.8">1.8 L</option>
+        <option value="2.0">2.0 L</option>
+        <option value="2.2">2.2 L</option>
+        <option value="2.5">2.5 L</option>
+        <option value="3.0">3.0 L +</option>
+      </select>
+    </div>
+  </div>
+  <div class="field field-full">
+    <label><span>📅</span> سنة الصنع (اختياري)</label>
+    <input type="number" id="carYear" placeholder="مثال: 2019" min="1990" max="2025"/>
+  </div>
+
+  <button class="btn-search" onclick="searchProblems()">
+    🔍 ابدأ التشخيص
+  </button>
+</div>
+
+<!-- ══════ RESULTS ══════ -->
+<div id="results">
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>جارٍ تحليل بيانات سيارتك...</p>
+  </div>
+
+  <!-- Content -->
+  <div id="resultsContent" style="display:none">
+
+    <!-- Header -->
+    <div class="results-header">
+      <div>
+        <div class="results-title">المشاكل الشائعة لـ <span id="carTitle"></span></div>
+      </div>
+      <div class="car-badge" id="engineBadge"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-box">
+        <div class="num" id="statTotal">0</div>
+        <div class="lbl">مشكلة مكتشفة</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statHigh">0</div>
+        <div class="lbl">خطورة عالية</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statVideos">0</div>
+        <div class="lbl">فيديو توضيحي</div>
+      </div>
+    </div>
+
+    <!-- Problems -->
+    <div class="problems-grid" id="problemsList"></div>
+
+    <!-- Video Section -->
+    <div id="video-section">
+      <div class="video-header">
+        <div class="video-icon">▶️</div>
+        <div>
+          <h3 id="videoTitle">فيديو توضيحي</h3>
+          <p id="videoSubtitle">اختر مشكلة أعلاه لمشاهدة طريقة الإصلاح</p>
+        </div>
+      </div>
+      <div class="video-frame" id="videoFrame">
+        <div class="video-placeholder">
+          <div class="ph-icon">🎬</div>
+          <p>اختر مشكلة من القائمة أعلاه<br/>لمشاهدة الفيديو التوضيحي</p>
+        </div>
+      </div>
+      <div class="steps-section" id="stepsSection" style="display:none">
+        <h4>🛠 خطوات الإصلاح</h4>
+        <div class="steps-list" id="stepsList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  صُنع بـ <span>❤</span> لمحبي السيارات · MECANO &copy; 2025 ·
+  <span>جميع الحقوق محفوظة</span>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
