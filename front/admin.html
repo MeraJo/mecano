@@ -29,6 +29,17 @@
       <h1>لوحة تحكم ميكانو</h1>
       <p>إنشاء وتعديل وحذف بيانات السيارات والأعطال والحلول مباشرة من واجهة واحدة.</p>
       <div id="statusBar" class="status-bar">جاهز للعمل</div>
+      <div class="tag-search-bar">
+        <input id="tagSearchQuery" type="text" placeholder="ابحث عن عنصر بواسطة الوسم" />
+        <select id="tagSearchScope">
+          <option value="all">الكل</option>
+          <option value="cars">السيارات</option>
+          <option value="problems">الأعطال</option>
+          <option value="solutions">الحلول</option>
+        </select>
+        <button class="btn" type="button" id="tagSearchBtn">بحث</button>
+        <button class="btn btn-ghost" type="button" id="tagSearchResetBtn">عرض الكل</button>
+      </div>
     </section>
 
     <section class="panel-grid">
@@ -39,12 +50,13 @@
         </div>
 
         <form id="carForm" class="form-grid">
-          <input id="carId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="carId" type="number" placeholder="ID (اختياري للإنشاء / مطلوب للتحديث والحذف)" />
           <input id="carBrand" type="text" placeholder="الماركة" required />
           <input id="carModel" type="text" placeholder="الموديل" required />
           <input id="carEngineType" type="text" placeholder="نوع المحرك" />
           <input id="carEngineSize" type="number" step="0.1" placeholder="سعة المحرك" />
           <input id="carYear" type="number" placeholder="السنة" />
+          <input id="carTags" type="text" placeholder="الوسوم: مفصولة بفواصل" />
           <div class="actions">
             <button class="btn" type="submit" data-mode="create">إنشاء</button>
             <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
@@ -62,6 +74,7 @@
                 <th>المحرك</th>
                 <th>السعة</th>
                 <th>السنة</th>
+                <th>الوسوم</th>
               </tr>
             </thead>
             <tbody id="carsTable"></tbody>
@@ -76,9 +89,10 @@
         </div>
 
         <form id="problemForm" class="form-grid">
-          <input id="problemId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="problemId" type="number" placeholder="ID (اختياري للإنشاء / مطلوب للتحديث والحذف)" />
           <input id="problemTitle" type="text" placeholder="عنوان العطل" required />
           <textarea id="problemDescription" placeholder="وصف العطل" rows="3"></textarea>
+          <input id="problemTags" type="text" placeholder="الوسوم: مفصولة بفواصل" />
           <div class="actions">
             <button class="btn" type="submit" data-mode="create">إنشاء</button>
             <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
@@ -93,6 +107,7 @@
                 <th>ID</th>
                 <th>العنوان</th>
                 <th>الوصف</th>
+                <th>الوسوم</th>
               </tr>
             </thead>
             <tbody id="problemsTable"></tbody>
@@ -106,14 +121,17 @@
         </div>
 
         <form id="solutionForm" class="form-grid">
-          <input id="solutionId" type="number" placeholder="ID (للتحديث/الحذف)" />
+          <input id="solutionId" type="number" placeholder="ID (اختياري للإنشاء / مطلوب للتحديث والحذف)" />
           <input id="solutionProblemId" type="number" placeholder="Problem ID" required />
-          <textarea id="solutionText" placeholder="نص الحل" rows="3" required></textarea>
+          <input id="solutionTitle" type="text" placeholder="عنوان الحل" required />
+          <textarea id="solutionBody" placeholder="محتوى الحل" rows="3" required></textarea>
+          <input id="solutionVideoUrl" type="text" placeholder="Video URL أو YouTube ID (اختياري)" />
+          <input id="solutionTags" type="text" placeholder="الوسوم: مفصولة بفواصل" />
           <div class="actions">
             <button class="btn" type="submit" data-mode="create">إنشاء</button>
             <button class="btn btn-secondary" type="submit" data-mode="update">تحديث</button>
             <button class="btn btn-danger" type="button" id="solutionDeleteBtn">حذف</button>
-            <button class="btn btn-ghost" type="button" id="solutionsLoadBtn">عرض حسب المشكلة</button>
+            <button class="btn btn-ghost" type="button" id="solutionsLoadBtn">تحديث الحلول</button>
           </div>
         </form>
 
@@ -123,7 +141,10 @@
               <tr>
                 <th>ID</th>
                 <th>Problem ID</th>
-                <th>نص الحل</th>
+                <th>العنوان</th>
+                <th>المحتوى</th>
+                <th>الفيديو</th>
+                <th>الوسوم</th>
               </tr>
             </thead>
             <tbody id="solutionsTable"></tbody>
@@ -152,6 +173,7 @@
                 <th>العطل</th>
                 <th>الوصف</th>
                 <th>الحلول</th>
+                <th>الوسوم</th>
               </tr>
             </thead>
             <tbody id="linksTable"></tbody>

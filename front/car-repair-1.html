@@ -40,11 +40,15 @@
   <div class="form-row">
     <div class="field">
       <label><span>🚗</span> اسم السيارة (الماركة)</label>
-      <input type="text" id="carBrand" placeholder="مثال: Toyota, BMW, Renault..."/>
+      <select id="carBrand">
+        <option value="">-- اختر الماركة --</option>
+      </select>
     </div>
     <div class="field">
       <label><span>🏷️</span> الموديل</label>
-      <input type="text" id="carModel" placeholder="مثال: Corolla, Serie 3..."/>
+      <select id="carModel">
+        <option value="">-- اختر الموديل --</option>
+      </select>
     </div>
   </div>
   <div class="form-row">
@@ -52,33 +56,20 @@
       <label><span>⚙️</span> نوع المحرك</label>
       <select id="engineType">
         <option value="">-- اختر نوع المحرك --</option>
-        <option value="essence">بنزين (Essence)</option>
-        <option value="diesel">ديزل (Diesel)</option>
-        <option value="hybride">هجين (Hybride)</option>
-        <option value="electrique">كهربائي (Électrique)</option>
-        <option value="gpl">غاز (GPL)</option>
       </select>
     </div>
     <div class="field">
       <label><span>🔩</span> سعة المحرك</label>
       <select id="engineSize">
         <option value="">-- اختر السعة --</option>
-        <option value="1.0">1.0 L</option>
-        <option value="1.2">1.2 L</option>
-        <option value="1.4">1.4 L</option>
-        <option value="1.5">1.5 L</option>
-        <option value="1.6">1.6 L</option>
-        <option value="1.8">1.8 L</option>
-        <option value="2.0">2.0 L</option>
-        <option value="2.2">2.2 L</option>
-        <option value="2.5">2.5 L</option>
-        <option value="3.0">3.0 L +</option>
       </select>
     </div>
   </div>
   <div class="field field-full">
     <label><span>📅</span> سنة الصنع (اختياري)</label>
-    <input type="number" id="carYear" placeholder="مثال: 2019" min="1990" max="2025"/>
+    <select id="carYear">
+      <option value="">-- كل السنوات --</option>
+    </select>
   </div>
 
   <button class="btn-search" onclick="searchProblems()">
