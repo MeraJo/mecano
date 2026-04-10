@@ -1,135 +1,224 @@
-/* Login page logic only: language, lightweight auth simulation, and redirect flow. */
-
 const I18N = {
   en: {
     'brand.tagline': 'Car Diagnostics',
+    'nav.home': 'Home',
+    'nav.engines': 'Engines',
+    'nav.videos': 'Videos',
+    'nav.admin': 'Admin Login',
+    'nav.contact': 'Contact',
+    'theme.title': 'Choose Theme',
+    'login.badge': 'Admin access only',
     'login.headline': 'Diagnose your car problems instantly',
     'login.desc': 'Enter your car details and get a complete list of common problems with step-by-step YouTube repair videos.',
     'login.feat1': '5 engine types supported',
     'login.feat2': 'YouTube tutorial videos',
     'login.feat3': 'Arabic, English & French',
     'login.feat4': 'Customizable color themes',
-    'login.title': 'Sign in to MECANO',
-    'login.subtitle': 'Choose how you want to continue',
-    'login.google': 'Sign in with Google',
-    'login.or': 'or',
-    'login.guest': 'Continue as Guest',
-    'login.note': 'Google sign-in only shares your name and email. We never see your password.'
+    'login.title': 'Admin Sign In',
+    'login.subtitle': 'Use your admin email and password to continue',
+    'login.email': 'Email',
+    'login.password': 'Password',
+    'login.submit': 'Sign in',
+    'login.note': 'Authentication is handled by the backend and works fully offline.',
+    'login.success': 'Login successful. Redirecting to admin panel...',
+    'login.error': 'Invalid email or password',
+    'login.required': 'Email and password are required'
   },
   ar: {
     'brand.tagline': 'تشخيص السيارات',
+    'nav.home': 'الرئيسية',
+    'nav.engines': 'المحركات',
+    'nav.videos': 'الفيديوهات',
+    'nav.admin': 'دخول المدير',
+    'nav.contact': 'تواصل معنا',
+    'theme.title': 'اختر المظهر',
+    'login.badge': 'الدخول للمدير فقط',
     'login.headline': 'شخّص مشاكل سيارتك فوراً',
-    'login.desc': 'أدخل معلومات سيارتك واحصل على قائمة بالمشاكل الشائعة مع فيديوهات إصلاح توضيحية.',
+    'login.desc': 'أدخل معلومات سيارتك واحصل على قائمة كاملة بالمشاكل الشائعة مع فيديوهات إصلاح خطوة بخطوة.',
     'login.feat1': 'يدعم 5 أنواع محركات',
-    'login.feat2': 'فيديوهات تعليمية يوتيوب',
-    'login.feat3': 'عربي، إنجليزي وفرنسي',
+    'login.feat2': 'فيديوهات تعليمية من يوتيوب',
+    'login.feat3': 'العربية والإنجليزية والفرنسية',
     'login.feat4': 'ألوان قابلة للتخصيص',
-    'login.title': 'تسجيل الدخول إلى MECANO',
-    'login.subtitle': 'اختر طريقة المتابعة',
-    'login.google': 'الدخول عبر Google',
-    'login.or': 'أو',
-    'login.guest': 'الدخول كزائر',
-    'login.note': 'تسجيل الدخول عبر Google يشارك الاسم والبريد فقط. لا نرى كلمة المرور.'
+    'login.title': 'دخول المدير',
+    'login.subtitle': 'استخدم بريد المدير وكلمة المرور للمتابعة',
+    'login.email': 'البريد الإلكتروني',
+    'login.password': 'كلمة المرور',
+    'login.submit': 'تسجيل الدخول',
+    'login.note': 'المصادقة تتم من خلال الخادم وتعمل بالكامل دون خدمات خارجية.',
+    'login.success': 'تم تسجيل الدخول بنجاح. جاري التحويل للوحة الإدارة...',
+    'login.error': 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+    'login.required': 'البريد الإلكتروني وكلمة المرور مطلوبان'
   },
   fr: {
     'brand.tagline': 'Diagnostic Auto',
+    'nav.home': 'Accueil',
+    'nav.engines': 'Moteurs',
+    'nav.videos': 'Videos',
+    'nav.admin': 'Connexion Admin',
+    'nav.contact': 'Contact',
+    'theme.title': 'Choisir un theme',
+    'login.badge': 'Acces admin uniquement',
     'login.headline': 'Diagnostiquez vos pannes instantanement',
-    'login.desc': 'Entrez les details de votre voiture et obtenez une liste des pannes courantes avec des videos de reparation.',
+    'login.desc': 'Saisissez les details de votre voiture et obtenez une liste complete des pannes courantes avec des videos de reparation.',
     'login.feat1': '5 types de moteur pris en charge',
     'login.feat2': 'Videos tutoriels YouTube',
-    'login.feat3': 'Arabe, Anglais et Francais',
+    'login.feat3': 'Arabe, anglais et francais',
     'login.feat4': 'Themes personnalisables',
-    'login.title': 'Connexion a MECANO',
-    'login.subtitle': 'Choisissez votre mode de connexion',
-    'login.google': 'Se connecter avec Google',
-    'login.or': 'ou',
-    'login.guest': 'Continuer en invite',
-    'login.note': 'Google partage uniquement votre nom et email. Nous ne voyons jamais votre mot de passe.'
+    'login.title': 'Connexion Admin',
+    'login.subtitle': 'Utilisez votre e-mail admin et votre mot de passe',
+    'login.email': 'E-mail',
+    'login.password': 'Mot de passe',
+    'login.submit': 'Se connecter',
+    'login.note': "L'authentification est geree par le backend et fonctionne hors ligne.",
+    'login.success': "Connexion reussie. Redirection vers l'administration...",
+    'login.error': 'Identifiants admin invalides',
+    'login.required': "L'e-mail et le mot de passe sont obligatoires"
   }
 };
 
 let currentLang = localStorage.getItem('mecano_lang') || 'en';
 
-function setLang(lang = 'en') {
-  currentLang = (I18N[lang] ? lang : 'en');
+function t(key) {
+  const pack = I18N[currentLang] || I18N.en;
+  return pack[key] || I18N.en[key] || key;
+}
+
+function setLang(lang) {
+  currentLang = I18N[lang] ? lang : 'en';
   localStorage.setItem('mecano_lang', currentLang);
 
   document.documentElement.lang = currentLang;
   document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
 
-  const dict = I18N[currentLang] || I18N.en;
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
-    if (dict[key]) {
-      el.textContent = dict[key];
-    }
+    el.textContent = t(key);
   });
 
-  document.querySelectorAll('.lang-btn').forEach((btn) => {
+  document.querySelectorAll('.lang-btn-h, .lang-btn').forEach((btn) => {
     btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === currentLang);
+  });
+
+  const emailInput = document.getElementById('loginEmail');
+  if (emailInput) {
+    emailInput.placeholder = currentLang === 'ar' ? 'admin@mechano.local' : 'admin@mechano.local';
+  }
+
+  const passwordInput = document.getElementById('loginPassword');
+  if (passwordInput) {
+    passwordInput.placeholder = currentLang === 'ar' ? '••••••••' : '••••••••';
+  }
+}
+
+function setActiveSwatch(theme) {
+  document.querySelectorAll('.swatch').forEach((swatch) => {
+    swatch.classList.toggle('active', swatch.dataset.theme === theme);
   });
 }
 
-function setLoginMessage(text, type = '') {
+function applyTheme(theme = 'dark') {
+  const normalized = String(theme || 'dark').toLowerCase();
+  const nextTheme = normalized === 'light' ? 'light' : 'dark';
+  if (nextTheme === 'dark') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', nextTheme);
+  }
+  localStorage.setItem('mecano_theme', nextTheme);
+  setActiveSwatch(nextTheme);
+}
+
+function toggleThemePicker() {
+  const picker = document.getElementById('themePicker');
+  if (picker) {
+    picker.classList.toggle('open');
+  }
+}
+
+document.addEventListener('click', (event) => {
+  const picker = document.getElementById('themePicker');
+  if (!picker || !picker.classList.contains('open')) {
+    return;
+  }
+
+  const clickedThemeButton = event.target.closest('.theme-btn');
+  const insidePicker = event.target.closest('#themePicker');
+  if (!insidePicker && !clickedThemeButton) {
+    picker.classList.remove('open');
+  }
+});
+
+function setMessage(text, isError = false) {
   const message = document.getElementById('loginMessage');
   if (!message) {
     return;
   }
 
-  message.className = type ? `login-message ${type}` : 'login-message';
-  message.textContent = text || '';
+  message.textContent = text;
+  message.className = `login-message ${isError ? 'error' : 'success'}`;
 }
 
-function saveUserSession(user) {
-  const serialized = JSON.stringify(user);
-  sessionStorage.setItem('mecano_user', serialized);
-  localStorage.setItem('mecano_user', serialized);
+async function checkAdminSession() {
+  try {
+    const response = await fetch('/auth/me', { credentials: 'include' });
+    if (response.ok) {
+      window.location.replace('/admin');
+    }
+  } catch (_) {
+    // Keep user on login when the server is unavailable.
+  }
 }
 
-function redirectToApp() {
-  window.location.replace('car-repair-1.html');
-}
+async function login(event) {
+  event.preventDefault();
 
-function loginWithGoogle() {
-  setLoginMessage('Connecting to Google...', 'success');
+  const email = String(document.getElementById('loginEmail')?.value || '').trim();
+  const password = String(document.getElementById('loginPassword')?.value || '');
 
-  // Simulated OAuth flow for now; replace with real provider callback when ready.
-  setTimeout(() => {
-    saveUserSession({
-      name: 'Google User',
-      email: 'user@gmail.com',
-      isGuest: false,
-      provider: 'google'
-    });
-    redirectToApp();
-  }, 900);
-}
-
-function loginAsGuest() {
-  saveUserSession({
-    name: 'Guest',
-    isGuest: true,
-    provider: 'guest'
-  });
-  redirectToApp();
-}
-
-function userAlreadyLoggedIn() {
-  return Boolean(sessionStorage.getItem('mecano_user'));
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (userAlreadyLoggedIn()) {
-    redirectToApp();
+  if (!email || !password) {
+    setMessage(t('login.required'), true);
     return;
   }
 
-  const storedTheme = localStorage.getItem('mecano_theme') || 'dark';
-  if (storedTheme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  setMessage('');
 
+  try {
+    const response = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password })
+    });
+
+    let payload = null;
+    try {
+      payload = await response.json();
+    } catch (_) {
+      payload = null;
+    }
+
+    if (!response.ok) {
+      setMessage(payload?.error || t('login.error'), true);
+      return;
+    }
+
+    setMessage(t('login.success'));
+    window.location.replace('/admin');
+  } catch (_) {
+    setMessage('Server connection failed', true);
+  }
+}
+
+window.setLang = setLang;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const storedTheme = localStorage.getItem('mecano_theme') || 'dark';
+  applyTheme(storedTheme);
   setLang(currentLang);
+  checkAdminSession();
+
+  const form = document.getElementById('loginForm');
+  if (form) {
+    form.addEventListener('submit', login);
+  }
 });

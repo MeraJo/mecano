@@ -154,6 +154,25 @@ nav a:hover { color: var(--accent); }
     color: var(--accent);
 }
 
+.admin-session-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .32rem .7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(232,160,32,.22);
+    background: rgba(232,160,32,.08);
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+    white-space: nowrap;
+}
+
+.admin-session-badge[hidden] {
+    display: none !important;
+}
+
 .user-badge {
     background: rgba(232,160,32,.08);
     border: 1px solid rgba(232,160,32,.2);

@@ -1,6 +1,33 @@
 const db = require('./database');
+const { hashPassword } = require('../lib/auth');
 
 db.serialize(() => {
+
+    db.run(`DROP TABLE IF EXISTS Sessions`);
+    db.run(`DROP TABLE IF EXISTS Users`);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS Admins (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password_salt TEXT NOT NULL,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'admin',
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS AdminSessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            admin_id INTEGER NOT NULL,
+            token_hash TEXT NOT NULL UNIQUE,
+            expires_at TEXT NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (admin_id) REFERENCES Admins(id) ON DELETE CASCADE
+        )
+    `);
 
     // Create Cars table
     db.run(`
@@ -40,6 +67,9 @@ db.serialize(() => {
     `);
 
     const tablesToCheck = [
+        { table: 'Admins', column: 'role' },
+        { table: 'Admins', column: 'created_at' },
+        { table: 'AdminSessions', column: 'created_at' },
         { table: 'Cars', column: 'tags' },
         { table: 'Problems', column: 'tags' },
         { table: 'Problems', column: 'danger_level' },
@@ -66,6 +96,24 @@ db.serialize(() => {
                 });
             }
         });
+    });
+
+    db.get(`SELECT COUNT(*) AS count FROM Admins`, [], (err, row) => {
+        if (err) {
+            console.error('Failed to count admins:', err.message);
+            return;
+        }
+
+        if (row.count === 0) {
+            const adminPassword = hashPassword('Admin123!');
+
+            db.run(
+                `INSERT INTO Admins (name, email, password_salt, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
+                ['Admin', 'admin@mechano.local', adminPassword.salt, adminPassword.hash, 'admin']
+            );
+
+            console.log('Default admin created');
+        }
     });
 
     //link tables for many to many relationship between cars and problems

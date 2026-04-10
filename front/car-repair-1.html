@@ -23,18 +23,17 @@
     <a href="#">الرئيسية</a>
     <a href="#">المحركات</a>
     <a href="#">الفيديوهات</a>
-    <a href="admin.html">لوحة الإدارة</a>
+    <a href="login.html">دخول المدير</a>
     <a href="#">تواصل معنا</a>
   </nav>
   <div class="header-controls">
+    <div class="admin-session-badge" id="adminSessionBadge" hidden>Admin Logged In</div>
     <div class="lang-switcher-h">
       <button class="lang-btn-h" onclick="setLang('en')">EN</button>
       <button class="lang-btn-h active" onclick="setLang('ar')">AR</button>
       <button class="lang-btn-h" onclick="setLang('fr')">FR</button>
     </div>
     <button class="theme-btn" onclick="toggleThemePicker()">🎨</button>
-    <div class="user-badge" id="userBadge">👤 Guest</div>
-    <button class="btn-logout" onclick="logout()">خروج</button>
   </div>
 </header>
 

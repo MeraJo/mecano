@@ -10,8 +10,8 @@ const I18N = {
     'nav.home': 'الرئيسية',
     'nav.engines': 'المحركات',
     'nav.videos': 'الفيديوهات',
+    'nav.admin': 'دخول المدير',
     'nav.contact': 'تواصل معنا',
-    'logout': 'خروج',
     'theme.title': 'اختر المظهر',
     'hero.badge': '⚡ تشخيص فوري ودقيق',
     'hero.title.main': 'اكتشف مشاكل سيارتك',
@@ -46,16 +46,15 @@ const I18N = {
     'video.title': 'فيديو توضيحي',
     'video.subtitle': 'شاهد الفيديو واتبع الخطوات أدناه',
     'video.placeholder': 'لا يوجد فيديو لهذا العطل حالياً',
-    'solution.heading': '📝 نص الحل',
-    'user.guest': 'Guest'
+    'solution.heading': '📝 نص الحل'
   },
   en: {
     'logo.sub': 'Car Diagnostics',
     'nav.home': 'Home',
     'nav.engines': 'Engines',
     'nav.videos': 'Videos',
+    'nav.admin': 'Admin Login',
     'nav.contact': 'Contact',
-    'logout': 'Logout',
     'theme.title': 'Choose Theme',
     'hero.badge': '⚡ Fast & Accurate Diagnostics',
     'hero.title.main': "Discover Your Car's Problems",
@@ -90,16 +89,15 @@ const I18N = {
     'video.title': 'Tutorial Video',
     'video.subtitle': 'Watch the video and follow the steps below',
     'video.placeholder': 'No video is available for this issue yet',
-    'solution.heading': '📝 Solution Text',
-    'user.guest': 'Guest'
+    'solution.heading': '📝 Solution Text'
   },
   fr: {
     'logo.sub': 'Diagnostic Auto',
     'nav.home': 'Accueil',
     'nav.engines': 'Moteurs',
     'nav.videos': 'Videos',
+    'nav.admin': 'Connexion Admin',
     'nav.contact': 'Contact',
-    'logout': 'Deconnexion',
     'theme.title': 'Choisir un theme',
     'hero.badge': '⚡ Diagnostic rapide et precis',
     'hero.title.main': 'Decouvrez les pannes de votre voiture',
@@ -134,8 +132,7 @@ const I18N = {
     'video.title': 'Video tutoriel',
     'video.subtitle': 'Regardez la video puis suivez les etapes',
     'video.placeholder': "Aucune video n'est disponible pour cette panne", 
-    'solution.heading': '📝 Texte de solution',
-    'user.guest': 'Invite'
+    'solution.heading': '📝 Texte de solution'
   }
 };
 
@@ -149,13 +146,11 @@ function applyStaticTranslations() {
   if (navLinks[0]) navLinks[0].textContent = t('nav.home');
   if (navLinks[1]) navLinks[1].textContent = t('nav.engines');
   if (navLinks[2]) navLinks[2].textContent = t('nav.videos');
+  if (navLinks[3]) navLinks[3].textContent = t('nav.admin');
   if (navLinks[4]) navLinks[4].textContent = t('nav.contact');
 
   const logoSub = document.querySelector('.logo-sub');
   if (logoSub) logoSub.textContent = t('logo.sub');
-
-  const logoutBtn = document.querySelector('.btn-logout');
-  if (logoutBtn) logoutBtn.textContent = t('logout');
 
   const themeTitle = document.querySelector('.theme-picker-title');
   if (themeTitle) themeTitle.textContent = t('theme.title');
@@ -217,33 +212,6 @@ function applyStaticTranslations() {
   }
 }
 
-function getCurrentUser() {
-  const rawUser = sessionStorage.getItem('mecano_user') || localStorage.getItem('mecano_user');
-  if (!rawUser) {
-    return null;
-  }
-
-  try {
-    const parsed = JSON.parse(rawUser);
-    if (parsed && typeof parsed === 'object') {
-      return parsed;
-    }
-  } catch (_) {
-    return { name: String(rawUser), isGuest: false };
-  }
-
-  return null;
-}
-
-function ensureAuthenticated() {
-  const user = getCurrentUser();
-  if (!user) {
-    window.location.replace('login.html');
-    return false;
-  }
-  return true;
-}
-
 function goHome() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -256,6 +224,20 @@ function setActiveSwatch(theme) {
   document.querySelectorAll('.swatch').forEach((swatch) => {
     swatch.classList.toggle('active', swatch.dataset.theme === theme);
   });
+}
+
+async function syncAdminSessionBadge() {
+  const badge = document.getElementById('adminSessionBadge');
+  if (!badge) {
+    return;
+  }
+
+  try {
+    const response = await fetch('/auth/me', { credentials: 'include' });
+    badge.hidden = !response.ok;
+  } catch (_) {
+    badge.hidden = true;
+  }
 }
 
 function applyTheme(theme = 'dark') {
@@ -296,25 +278,13 @@ function setLang(lang = 'ar') {
   }
 }
 
-function logout() {
-  sessionStorage.removeItem('mecano_user');
-  localStorage.removeItem('mecano_user');
-  window.location.replace('login.html');
-}
-
 function initHeaderEnhancements() {
   const storedTheme = localStorage.getItem('mecano_theme') || 'dark';
   applyTheme(storedTheme);
 
   const storedLang = localStorage.getItem('mecano_lang') || 'ar';
   setLang(storedLang);
-
-  const badge = document.getElementById('userBadge');
-  if (badge) {
-    const user = getCurrentUser();
-    const userName = user?.name || 'Guest';
-    badge.textContent = `👤 ${userName || t('user.guest')}`;
-  }
+  syncAdminSessionBadge();
 
   document.addEventListener('click', (event) => {
     const picker = getThemePicker();
@@ -641,7 +611,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter') searchProblems();
 });
 
-if (ensureAuthenticated()) {
+async function boot() {
   initHeaderEnhancements();
-  initCarDropdowns();
+  await initCarDropdowns();
 }
+
+boot();

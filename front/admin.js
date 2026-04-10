@@ -23,6 +23,25 @@ function setStatus(message, isError = false) {
   els.statusBar.className = `status-bar ${isError ? 'tag-err' : 'tag-ok'}`;
 }
 
+async function syncAdminSessionBadge() {
+  const badge = document.getElementById('adminSessionBadge');
+  if (!badge) {
+    return;
+  }
+
+  try {
+    const response = await request('/auth/me');
+    badge.hidden = false;
+    if (!response?.admin) {
+      badge.hidden = true;
+      window.location.replace('/login.html');
+    }
+  } catch (_) {
+    badge.hidden = true;
+    window.location.replace('/login.html');
+  }
+}
+
 function parseTags(value) {
   if (!value) {
     return [];
@@ -101,6 +120,7 @@ function showDuplicateSuggestion(err) {
 async function request(path, options = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     ...options
   });
 
@@ -392,6 +412,16 @@ document.getElementById('linksLoadBtn').addEventListener('click', async () => {
   }
 });
 
+document.getElementById('adminLogoutLink').addEventListener('click', async (event) => {
+  event.preventDefault();
+  try {
+    await request('/auth/logout', { method: 'POST' });
+  } catch (_) {
+    // Continue redirect even if request fails.
+  }
+  window.location.replace('/');
+});
+
 document.getElementById('tagSearchBtn').addEventListener('click', applyTagFilter);
 document.getElementById('tagSearchResetBtn').addEventListener('click', clearTagFilter);
 document.getElementById('tagSearchQuery').addEventListener('keydown', (event) => {
@@ -582,6 +612,7 @@ linkForm.addEventListener('submit', async (event) => {
 });
 
 async function boot() {
+  await syncAdminSessionBadge();
   try {
     await Promise.all([loadCars(), loadProblems(), loadSolutions()]);
     setStatus('تم تحميل البيانات الأساسية. يمكنك البدء بالإدارة.');
