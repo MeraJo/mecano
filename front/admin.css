@@ -53,11 +53,22 @@
 }
 
 .panel {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 1.2rem;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 17px;
+    background: linear-gradient(135deg, rgba(232, 160, 32, 0.08), transparent 50%, rgba(255, 107, 53, 0.06));
+    z-index: -1;
 }
 
 .panel-head {
@@ -79,7 +90,8 @@
 }
 
 .form-grid input,
-.form-grid textarea {
+.form-grid textarea,
+.form-grid select {
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -90,7 +102,8 @@
 }
 
 .form-grid input:focus,
-.form-grid textarea:focus {
+.form-grid textarea:focus,
+.form-grid select:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(232, 160, 32, 0.12);
@@ -112,26 +125,36 @@
     font-size: 0.9rem;
     padding: 0.55rem 0.9rem;
     cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
 }
 
 .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(232, 160, 32, 0.25);
     filter: brightness(1.08);
 }
 
 .btn-secondary {
-    background: #2a3242;
+    background: var(--surface2);
+    border: 1px solid var(--border);
     color: var(--text);
 }
 
 .btn-danger {
-    background: #6d1f2c;
-    color: #ffd9df;
+    background: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
 }
 
 .btn-ghost {
     background: transparent;
     border: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.btn-ghost:hover {
     color: var(--text);
+    border-color: var(--accent);
 }
 
 .table-wrap {
@@ -158,7 +181,7 @@ td {
 th {
     position: sticky;
     top: 0;
-    background: #191d26;
+    background: var(--surface2);
     z-index: 1;
 }
 
@@ -230,6 +253,10 @@ tbody tr.selected-row {
 
 .tag-err {
     color: #fca5a5;
+}
+
+footer {
+    text-align: center;
 }
 
 @media (max-width: 960px) {

@@ -53,8 +53,27 @@
           <input id="carId" type="number" placeholder="ID (اختياري للإنشاء / مطلوب للتحديث والحذف)" />
           <input id="carBrand" type="text" placeholder="الماركة" required />
           <input id="carModel" type="text" placeholder="الموديل" required />
-          <input id="carEngineType" type="text" placeholder="نوع المحرك" />
-          <input id="carEngineSize" type="number" step="0.1" placeholder="سعة المحرك" />
+          <select id="carEngineType" required>
+            <option value="">اختر نوع المحرك</option>
+            <option value="gasoline">Gasoline</option>
+            <option value="diesel">Diesel</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="electric">Electric</option>
+            <option value="lpg">LPG</option>
+          </select>
+          <select id="carEngineSize" required>
+            <option value="">اختر سعة المحرك</option>
+            <option value="1.0">1.0</option>
+            <option value="1.2">1.2</option>
+            <option value="1.4">1.4</option>
+            <option value="1.5">1.5</option>
+            <option value="1.6">1.6</option>
+            <option value="1.8">1.8</option>
+            <option value="2.0">2.0</option>
+            <option value="2.2">2.2</option>
+            <option value="2.5">2.5</option>
+            <option value="3.0">3.0</option>
+          </select>
           <input id="carYear" type="number" placeholder="السنة" />
           <input id="carTags" type="text" placeholder="الوسوم: مفصولة بفواصل" />
           <div class="actions">
@@ -92,6 +111,11 @@
           <input id="problemId" type="number" placeholder="ID (اختياري للإنشاء / مطلوب للتحديث والحذف)" />
           <input id="problemTitle" type="text" placeholder="عنوان العطل" required />
           <textarea id="problemDescription" placeholder="وصف العطل" rows="3"></textarea>
+          <select id="problemDangerLevel" required>
+            <option value="medium">متوسط</option>
+            <option value="low">منخفض</option>
+            <option value="high">مرتفع</option>
+          </select>
           <input id="problemTags" type="text" placeholder="الوسوم: مفصولة بفواصل" />
           <div class="actions">
             <button class="btn" type="submit" data-mode="create">إنشاء</button>
@@ -107,6 +131,7 @@
                 <th>ID</th>
                 <th>العنوان</th>
                 <th>الوصف</th>
+                <th>درجة الخطورة</th>
                 <th>الوسوم</th>
               </tr>
             </thead>
@@ -184,7 +209,9 @@
   </main>
 
   <footer>
-    MECANO Admin Panel &copy; 2026
+    <div class="footer-inner">
+      <p class="footer-copy">made with love, team rocket~</p>
+    </div>
   </footer>
 
   <script src="admin.js"></script>

@@ -33,6 +33,7 @@ router.post('/', (req, res) => {
             Problems.id AS problem_id,
             Problems.title AS problem_title,
             Problems.description AS problem_description,
+            Problems.danger_level AS problem_danger_level,
             Problems.tags AS problem_tags,
             Solutions.id AS solution_id,
             Solutions.solution_title AS solution_title,
@@ -64,6 +65,7 @@ router.post('/', (req, res) => {
                 grouped[row.problem_id] = {
                     title: row.problem_title,
                     description: row.problem_description,
+                    danger_level: row.problem_danger_level || 'medium',
                     solutions: [],
                     solution_ids: new Set(),
                     video_url: null,
@@ -92,6 +94,7 @@ router.post('/', (req, res) => {
         const normalized = Object.values(grouped).map((problem) => ({
             title: problem.title,
             description: problem.description,
+            danger_level: problem.danger_level,
             solution_text: problem.solutions
                 .map((solution) => `${solution.title}\n${solution.body}`.trim())
                 .join('\n\n'),

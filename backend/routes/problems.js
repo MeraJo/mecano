@@ -4,9 +4,17 @@ const db = require('../db/database');
 const { getClosestEmptyId, checkDuplicateId } = require('../db/idHelpers');
 const { normalizeTagsInput, tagsToArray } = require('../db/fieldHelpers');
 
+function normalizeDangerLevel(value) {
+    const normalized = String(value || '').trim().toLowerCase();
+    if (normalized === 'low' || normalized === 'high') {
+        return normalized;
+    }
+    return 'medium';
+}
+
 // Create a new problem
 router.post('/', (req, res) => {
-    const { id, title, description, tags } = req.body;
+    const { id, title, description, tags, danger_level } = req.body;
 
     const parsedId = id === undefined || id === null || id === '' ? null : Number(id);
     if (parsedId !== null && (!Number.isInteger(parsedId) || parsedId <= 0)) {
@@ -15,12 +23,12 @@ router.post('/', (req, res) => {
 
     const insertProblem = (insertId = null) => {
         const query = insertId === null
-            ? `INSERT INTO Problems (title, description, tags) VALUES (?, ?, ?)`
-            : `INSERT INTO Problems (id, title, description, tags) VALUES (?, ?, ?, ?)`;
+            ? `INSERT INTO Problems (title, description, tags, danger_level) VALUES (?, ?, ?, ?)`
+            : `INSERT INTO Problems (id, title, description, tags, danger_level) VALUES (?, ?, ?, ?, ?)`;
 
         const params = insertId === null
-            ? [title, description, normalizeTagsInput(tags)]
-            : [insertId, title, description, normalizeTagsInput(tags)];
+            ? [title, description, normalizeTagsInput(tags), normalizeDangerLevel(danger_level)]
+            : [insertId, title, description, normalizeTagsInput(tags), normalizeDangerLevel(danger_level)];
 
         db.run(query, params, function(err) {
             if (err) {
@@ -69,7 +77,11 @@ router.get('/', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        res.json(rows.map((row) => ({ ...row, tags: tagsToArray(row.tags) })));
+        res.json(rows.map((row) => ({
+            ...row,
+            tags: tagsToArray(row.tags),
+            danger_level: normalizeDangerLevel(row.danger_level)
+        })));
     });
 });
 
@@ -80,17 +92,21 @@ router.get('/:id', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        res.json(row ? { ...row, tags: tagsToArray(row.tags) } : row);
+        res.json(row ? {
+            ...row,
+            tags: tagsToArray(row.tags),
+            danger_level: normalizeDangerLevel(row.danger_level)
+        } : row);
     });
 });
 
 // Update a problem by ID
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { title, description, tags } = req.body;
+    const { title, description, tags, danger_level } = req.body;
     db.run(
-        `UPDATE Problems SET title = ?, description = ?, tags = ? WHERE id = ?`,
-        [title, description, normalizeTagsInput(tags), id],
+        `UPDATE Problems SET title = ?, description = ?, tags = ?, danger_level = ? WHERE id = ?`,
+        [title, description, normalizeTagsInput(tags), normalizeDangerLevel(danger_level), id],
         function(err) {
             if (err) {
                 return res.status(500).json({ error: err.message });

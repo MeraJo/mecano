@@ -22,7 +22,8 @@ db.serialize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
-            tags TEXT
+            tags TEXT,
+            danger_level TEXT DEFAULT 'medium'
         )
     `);
 
@@ -41,6 +42,7 @@ db.serialize(() => {
     const tablesToCheck = [
         { table: 'Cars', column: 'tags' },
         { table: 'Problems', column: 'tags' },
+        { table: 'Problems', column: 'danger_level' },
         { table: 'Solutions', column: 'solution_title' },
         { table: 'Solutions', column: 'tags' },
         { table: 'Solutions', column: 'video_url' }

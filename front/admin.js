@@ -142,6 +142,23 @@ function safeText(value) {
     .replaceAll("'", '&#39;');
 }
 
+function normalizeDangerLevel(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === 'low' || normalized === 'high') {
+    return normalized;
+  }
+  return 'medium';
+}
+
+function dangerLabel(value) {
+  const level = normalizeDangerLevel(value);
+  return {
+    low: 'منخفض',
+    medium: 'متوسط',
+    high: 'مرتفع'
+  }[level];
+}
+
 function renderCars(cars) {
   if (!cars.length) {
     els.carsTable.innerHTML = '<tr><td colspan="7">لا توجد سيارات</td></tr>';
@@ -163,7 +180,7 @@ function renderCars(cars) {
 
 function renderProblems(problems) {
   if (!problems.length) {
-    els.problemsTable.innerHTML = '<tr><td colspan="4">لا توجد أعطال</td></tr>';
+    els.problemsTable.innerHTML = '<tr><td colspan="5">لا توجد أعطال</td></tr>';
     return;
   }
 
@@ -172,6 +189,7 @@ function renderProblems(problems) {
       <td>${safeText(problem.id)}</td>
       <td>${safeText(problem.title)}</td>
       <td>${safeText(problem.description)}</td>
+      <td>${safeText(dangerLabel(problem.danger_level))}</td>
       <td>${renderTagList(problem.tags)}</td>
     </tr>
   `).join('');
@@ -288,6 +306,7 @@ function editItem(kind, id) {
     document.getElementById('problemId').value = item.id ?? '';
     document.getElementById('problemTitle').value = item.title || '';
     document.getElementById('problemDescription').value = item.description || '';
+    document.getElementById('problemDangerLevel').value = normalizeDangerLevel(item.danger_level);
     document.getElementById('problemTags').value = (item.tags || []).join(', ');
     setStatus(`تم تحميل العطل رقم ${item.id} للتعديل`);
   }
@@ -393,7 +412,7 @@ carForm.addEventListener('submit', async (event) => {
     id,
     brand: document.getElementById('carBrand').value.trim(),
     model: document.getElementById('carModel').value.trim(),
-    engine_type: document.getElementById('carEngineType').value.trim() || null,
+    engine_type: document.getElementById('carEngineType').value || null,
     engine_size: getNumber(document.getElementById('carEngineSize').value),
     year: getNumber(document.getElementById('carYear').value),
     tags: document.getElementById('carTags').value.trim() || null
@@ -442,6 +461,7 @@ problemForm.addEventListener('submit', async (event) => {
     id,
     title: document.getElementById('problemTitle').value.trim(),
     description: document.getElementById('problemDescription').value.trim() || null,
+    danger_level: normalizeDangerLevel(document.getElementById('problemDangerLevel').value),
     tags: document.getElementById('problemTags').value.trim() || null
   };
 

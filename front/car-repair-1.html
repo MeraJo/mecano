@@ -12,7 +12,7 @@
 
 <!-- ══════ HEADER ══════ -->
 <header>
-  <div class="logo">
+  <div class="logo" onclick="goHome()">
     <div class="logo-icon">🔧</div>
     <div>
       <div class="logo-text">MECANO</div>
@@ -26,7 +26,25 @@
     <a href="admin.html">لوحة الإدارة</a>
     <a href="#">تواصل معنا</a>
   </nav>
+  <div class="header-controls">
+    <div class="lang-switcher-h">
+      <button class="lang-btn-h" onclick="setLang('en')">EN</button>
+      <button class="lang-btn-h active" onclick="setLang('ar')">AR</button>
+      <button class="lang-btn-h" onclick="setLang('fr')">FR</button>
+    </div>
+    <button class="theme-btn" onclick="toggleThemePicker()">🎨</button>
+    <div class="user-badge" id="userBadge">👤 Guest</div>
+    <button class="btn-logout" onclick="logout()">خروج</button>
+  </div>
 </header>
+
+<div class="theme-picker" id="themePicker">
+  <div class="theme-picker-title">اختر المظهر</div>
+  <div class="theme-swatches">
+    <button class="swatch active" data-theme="dark" onclick="applyTheme('dark')" title="Dark"><span style="background:#0a0c10"></span></button>
+    <button class="swatch" data-theme="light" onclick="applyTheme('light')" title="Light"><span style="background:#f5f5f5;border:1px solid #ccc"></span></button>
+  </div>
+</div>
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
@@ -83,7 +101,6 @@
   <!-- Loading -->
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <p>جارٍ تحليل بيانات سيارتك...</p>
   </div>
 
   <!-- Content -->
@@ -142,8 +159,9 @@
 
 <!-- ══════ FOOTER ══════ -->
 <footer>
-  صُنع بـ <span>❤</span> لمحبي السيارات · MECANO &copy; 2025 ·
-  <span>جميع الحقوق محفوظة</span>
+  <div class="footer-inner">
+    <p class="footer-copy">made with love, team rocket~</p>
+  </div>
 </footer>
 
 <script src="script.js"></script>
