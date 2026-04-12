@@ -1,1 +1,0 @@
-- adding a car to the same id of another car results in an addition operation (exmpl: 3(exist) and 3(add) = new id is 6 (even tho we wanted it to be 3)) --> must add a not proper id message to it.
