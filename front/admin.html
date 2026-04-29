@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ميكانو - لوحة الإدارة</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="css\styles.css" />
+  <link rel="stylesheet" href="css\admin.css" />
 </head>
 <body>
   <header>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <nav>
-      <a href="car-repair-1.html">صفحة التشخيص</a>
+      <a href="diagnosis.html">صفحة التشخيص</a>
       <a href="admin.html">لوحة الإدارة</a>
       <a href="#" id="adminLogoutLink">خروج المدير</a>
     </nav>
@@ -190,6 +190,7 @@
           <div class="actions">
             <button class="btn" type="submit">إنشاء الربط</button>
             <button class="btn btn-ghost" type="button" id="linksLoadBtn">عرض مشاكل السيارة</button>
+            <button class="btn btn-danger" type="button" id="linksDeleteBtn">حذف الربط</button>
           </div>
         </form>
 
@@ -217,6 +218,6 @@
     </div>
   </footer>
 
-  <script src="admin.js"></script>
+  <script src="js\admin.js"></script>
 </body>
 </html>

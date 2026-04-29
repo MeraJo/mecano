@@ -91,3 +91,20 @@ router.get('/:car_id', (req, res) => {
 });
 
 module.exports = router;
+
+// Allow deleting a car-problem link by IDs (accepts JSON body or query params)
+router.delete('/', (req, res) => {
+    const carId = req.body?.car_id ?? req.query?.car_id;
+    const problemId = req.body?.problem_id ?? req.query?.problem_id;
+
+    if (!carId || !problemId) {
+        return res.status(400).json({ error: 'Provide car_id and problem_id to delete the link' });
+    }
+
+    db.run(`DELETE FROM CarProblems WHERE car_id = ? AND problem_id = ?`, [carId, problemId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: 'Link deleted successfully', changes: this.changes });
+    });
+});

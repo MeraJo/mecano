@@ -412,6 +412,27 @@ document.getElementById('linksLoadBtn').addEventListener('click', async () => {
   }
 });
 
+document.getElementById('linksDeleteBtn').addEventListener('click', async () => {
+  const carId = getNumber(document.getElementById('linkCarId').value);
+  const problemId = getNumber(document.getElementById('linkProblemId').value);
+
+  if (!carId || !problemId) {
+    setStatus('أدخل Car ID و Problem ID للحذف', true);
+    return;
+  }
+
+  try {
+    await request('/car-problems', {
+      method: 'DELETE',
+      body: JSON.stringify({ car_id: carId, problem_id: problemId })
+    });
+    setStatus(`تم حذف الربط بين السيارة ${carId} والعطل ${problemId}`);
+    await loadLinksByCar();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+});
+
 document.getElementById('adminLogoutLink').addEventListener('click', async (event) => {
   event.preventDefault();
   try {

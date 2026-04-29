@@ -119,11 +119,24 @@ router.put('/:id', (req, res) => {
 // Delete a problem by ID
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    db.run(`DELETE FROM Problems WHERE id = ?`, [id], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
+    // Remove dependent solutions and car-problem links first to prevent FK constraint errors
+    db.run(`DELETE FROM Solutions WHERE problem_id = ?`, [id], function(solErr) {
+        if (solErr) {
+            return res.status(500).json({ error: solErr.message });
         }
-        res.json({ message: 'Problem deleted successfully', changes: this.changes });
+
+        db.run(`DELETE FROM CarProblems WHERE problem_id = ?`, [id], function(cpErr) {
+            if (cpErr) {
+                return res.status(500).json({ error: cpErr.message });
+            }
+
+            db.run(`DELETE FROM Problems WHERE id = ?`, [id], function(err) {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                res.json({ message: 'Problem deleted successfully', changes: this.changes });
+            });
+        });
     });
 });
 

@@ -106,11 +106,18 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
-    db.run(`DELETE FROM Cars WHERE id = ?`, [id], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
+    // First remove any links that reference this car to avoid FK constraint failures
+    db.run(`DELETE FROM CarProblems WHERE car_id = ?`, [id], function(cpErr) {
+        if (cpErr) {
+            return res.status(500).json({ error: cpErr.message });
         }
-        res.json({ message: 'Car deleted successfully', changes: this.changes });
+
+        db.run(`DELETE FROM Cars WHERE id = ?`, [id], function(err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ message: 'Car deleted successfully', changes: this.changes });
+        });
     });
 });
 
