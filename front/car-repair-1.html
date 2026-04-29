@@ -1,169 +1,172 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ميكانو - تشخيص السيارات</title>
- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet"/>  
-  <link rel="stylesheet" href="styles.css" />
-  
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ميكانو - تشخيص السيارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+
 </head>
+
 <body>
 
-<!-- ══════ HEADER ══════ -->
-<header>
-  <div class="logo" onclick="goHome()">
-    <div class="logo-icon">🔧</div>
-    <div>
-      <div class="logo-text">MECANO</div>
-      <div class="logo-sub">تشخيص السيارات</div>
+    <!-- ══════ HEADER ══════ -->
+    <header>
+        <div class="logo" onclick="goHome()">
+            <div class="logo-icon">🔧</div>
+            <div>
+                <div class="logo-text">MECANO</div>
+                <div class="logo-sub">تشخيص السيارات</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#">المحركات</a>
+            <a href="#">الفيديوهات</a>
+            <a href="login.html">دخول المدير</a>
+            <a href="#">تواصل معنا</a>
+        </nav>
+        <div class="header-controls">
+            <div class="admin-session-badge" id="adminSessionBadge" hidden>Admin Logged In</div>
+            <div class="lang-switcher-h">
+                <button class="lang-btn-h" onclick="setLang('en')">EN</button>
+                <button class="lang-btn-h active" onclick="setLang('ar')">AR</button>
+                <button class="lang-btn-h" onclick="setLang('fr')">FR</button>
+            </div>
+            <button class="theme-btn" onclick="toggleThemePicker()">🎨</button>
+        </div>
+    </header>
+
+    <div class="theme-picker" id="themePicker">
+        <div class="theme-picker-title">اختر المظهر</div>
+        <div class="theme-swatches">
+            <button class="swatch active" data-theme="dark" onclick="applyTheme('dark')" title="Dark"><span style="background:#0a0c10"></span></button>
+            <button class="swatch" data-theme="light" onclick="applyTheme('light')" title="Light"><span style="background:#f5f5f5;border:1px solid #ccc"></span></button>
+        </div>
     </div>
-  </div>
-  <nav>
-    <a href="#">الرئيسية</a>
-    <a href="#">المحركات</a>
-    <a href="#">الفيديوهات</a>
-    <a href="login.html">دخول المدير</a>
-    <a href="#">تواصل معنا</a>
-  </nav>
-  <div class="header-controls">
-    <div class="admin-session-badge" id="adminSessionBadge" hidden>Admin Logged In</div>
-    <div class="lang-switcher-h">
-      <button class="lang-btn-h" onclick="setLang('en')">EN</button>
-      <button class="lang-btn-h active" onclick="setLang('ar')">AR</button>
-      <button class="lang-btn-h" onclick="setLang('fr')">FR</button>
-    </div>
-    <button class="theme-btn" onclick="toggleThemePicker()">🎨</button>
-  </div>
-</header>
 
-<div class="theme-picker" id="themePicker">
-  <div class="theme-picker-title">اختر المظهر</div>
-  <div class="theme-swatches">
-    <button class="swatch active" data-theme="dark" onclick="applyTheme('dark')" title="Dark"><span style="background:#0a0c10"></span></button>
-    <button class="swatch" data-theme="light" onclick="applyTheme('light')" title="Light"><span style="background:#f5f5f5;border:1px solid #ccc"></span></button>
-  </div>
-</div>
+    <!-- ══════ HERO ══════ -->
+    <section class="hero">
+        <div class="hero-badge">⚡ تشخيص فوري ودقيق</div>
+        <h1>اكتشف مشاكل سيارتك<br/><span>في ثوانٍ</span></h1>
+        <p>أدخل معلومات سيارتك واحصل على قائمة بالمشاكل الشائعة مع فيديوهات توضيحية للإصلاح</p>
+    </section>
 
-<!-- ══════ HERO ══════ -->
-<section class="hero">
-  <div class="hero-badge">⚡ تشخيص فوري ودقيق</div>
-  <h1>اكتشف مشاكل سيارتك<br/><span>في ثوانٍ</span></h1>
-  <p>أدخل معلومات سيارتك واحصل على قائمة بالمشاكل الشائعة مع فيديوهات توضيحية للإصلاح</p>
-</section>
-
-<!-- ══════ FORM ══════ -->
-<div class="form-card">
-  <div class="form-row">
-    <div class="field">
-      <label><span>🚗</span> اسم السيارة (الماركة)</label>
-      <select id="carBrand">
+    <!-- ══════ FORM ══════ -->
+    <div class="form-card">
+        <div class="form-row">
+            <div class="field">
+                <label><span>🚗</span> اسم السيارة (الماركة)</label>
+                <select id="carBrand">
         <option value="">-- اختر الماركة --</option>
       </select>
-    </div>
-    <div class="field">
-      <label><span>🏷️</span> الموديل</label>
-      <select id="carModel">
+            </div>
+            <div class="field">
+                <label><span>🏷️</span> الموديل</label>
+                <select id="carModel">
         <option value="">-- اختر الموديل --</option>
       </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="field">
-      <label><span>⚙️</span> نوع المحرك</label>
-      <select id="engineType">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="field">
+                <label><span>⚙️</span> نوع المحرك</label>
+                <select id="engineType">
         <option value="">-- اختر نوع المحرك --</option>
       </select>
-    </div>
-    <div class="field">
-      <label><span>🔩</span> سعة المحرك</label>
-      <select id="engineSize">
+            </div>
+            <div class="field">
+                <label><span>🔩</span> سعة المحرك</label>
+                <select id="engineSize">
         <option value="">-- اختر السعة --</option>
       </select>
-    </div>
-  </div>
-  <div class="field field-full">
-    <label><span>📅</span> سنة الصنع (اختياري)</label>
-    <select id="carYear">
+            </div>
+        </div>
+        <div class="field field-full">
+            <label><span>📅</span> سنة الصنع (اختياري)</label>
+            <select id="carYear">
       <option value="">-- كل السنوات --</option>
     </select>
-  </div>
+        </div>
 
-  <button class="btn-search" onclick="searchProblems()">
+        <button class="btn-search" onclick="searchProblems()">
     🔍 ابدأ التشخيص
   </button>
-</div>
-
-<!-- ══════ RESULTS ══════ -->
-<div id="results">
-
-  <!-- Loading -->
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-  </div>
-
-  <!-- Content -->
-  <div id="resultsContent" style="display:none">
-
-    <!-- Header -->
-    <div class="results-header">
-      <div>
-        <div class="results-title">المشاكل الشائعة لـ <span id="carTitle"></span></div>
-      </div>
-      <div class="car-badge" id="engineBadge"></div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat-box">
-        <div class="num" id="statTotal">0</div>
-        <div class="lbl">مشكلة مكتشفة</div>
-      </div>
-      <div class="stat-box">
-        <div class="num" id="statHigh">0</div>
-        <div class="lbl">خطورة عالية</div>
-      </div>
-      <div class="stat-box">
-        <div class="num" id="statVideos">0</div>
-        <div class="lbl">فيديو توضيحي</div>
-      </div>
-    </div>
+    <!-- ══════ RESULTS ══════ -->
+    <div id="results">
 
-    <!-- Problems -->
-    <div class="problems-grid" id="problemsList"></div>
-
-    <!-- Video Section -->
-    <div id="video-section">
-      <div class="video-header">
-        <div class="video-icon">▶️</div>
-        <div>
-          <h3 id="videoTitle">فيديو توضيحي</h3>
-          <p id="videoSubtitle">اختر مشكلة أعلاه لمشاهدة طريقة الإصلاح</p>
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
         </div>
-      </div>
-      <div class="video-frame" id="videoFrame">
-        <div class="video-placeholder">
-          <div class="ph-icon">🎬</div>
-          <p>اختر مشكلة من القائمة أعلاه<br/>لمشاهدة الفيديو التوضيحي</p>
+
+        <!-- Content -->
+        <div id="resultsContent" style="display:none">
+
+            <!-- Header -->
+            <div class="results-header">
+                <div>
+                    <div class="results-title">المشاكل الشائعة لـ <span id="carTitle"></span></div>
+                </div>
+                <div class="car-badge" id="engineBadge"></div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="num" id="statTotal">0</div>
+                    <div class="lbl">مشكلة مكتشفة</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num" id="statHigh">0</div>
+                    <div class="lbl">خطورة عالية</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num" id="statVideos">0</div>
+                    <div class="lbl">فيديو توضيحي</div>
+                </div>
+            </div>
+
+            <!-- Problems -->
+            <div class="problems-grid" id="problemsList"></div>
+
+            <!-- Video Section -->
+            <div id="video-section">
+                <div class="video-header">
+                    <div class="video-icon">▶️</div>
+                    <div>
+                        <h3 id="videoTitle">فيديو توضيحي</h3>
+                        <p id="videoSubtitle">اختر مشكلة أعلاه لمشاهدة طريقة الإصلاح</p>
+                    </div>
+                </div>
+                <div class="video-frame" id="videoFrame">
+                    <div class="video-placeholder">
+                        <div class="ph-icon">🎬</div>
+                        <p>اختر مشكلة من القائمة أعلاه<br/>لمشاهدة الفيديو التوضيحي</p>
+                    </div>
+                </div>
+                <div class="steps-section" id="stepsSection" style="display:none">
+                    <h4>🛠 خطوات الإصلاح</h4>
+                    <div class="steps-list" id="stepsList"></div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      <div class="steps-section" id="stepsSection" style="display:none">
-        <h4>🛠 خطوات الإصلاح</h4>
-        <div class="steps-list" id="stepsList"></div>
-      </div>
     </div>
 
-  </div>
-</div>
+    <!-- ══════ FOOTER ══════ -->
+    <footer>
+        <div class="footer-inner">
+            <p class="footer-copy">made with love, team rocket~</p>
+        </div>
+    </footer>
 
-<!-- ══════ FOOTER ══════ -->
-<footer>
-  <div class="footer-inner">
-    <p class="footer-copy">made with love, team rocket~</p>
-  </div>
-</footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
