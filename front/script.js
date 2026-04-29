@@ -7,10 +7,7 @@ const I18N = {
     ar: {
         'logo.sub': 'تشخيص السيارات',
         'nav.home': 'الرئيسية',
-        'nav.engines': 'المحركات',
-        'nav.videos': 'الفيديوهات',
         'nav.admin': 'دخول المدير ايوب',
-        'nav.contact': 'تواصل معنا',
         'theme.title': 'اختر المظهر',
         'hero.badge': '⚡ تشخيص فوري ودقيق',
         'hero.title.main': 'اكتشف مشاكل سيارتك',
@@ -51,10 +48,7 @@ const I18N = {
     en: {
         'logo.sub': 'Car Diagnostics',
         'nav.home': 'Home',
-        'nav.engines': 'Engines',
-        'nav.videos': 'Videos',
         'nav.admin': 'Admin Login',
-        'nav.contact': 'Contact',
         'theme.title': 'Choose Theme',
         'hero.badge': '⚡ Fast & Accurate Diagnostics',
         'hero.title.main': "Discover Your Car's Problems",
@@ -94,10 +88,7 @@ const I18N = {
     fr: {
         'logo.sub': 'Diagnostic Auto',
         'nav.home': 'Accueil',
-        'nav.engines': 'Moteurs',
-        'nav.videos': 'Videos',
         'nav.admin': 'Connexion Admin',
-        'nav.contact': 'Contact',
         'theme.title': 'Choisir un theme',
         'hero.badge': '⚡ Diagnostic rapide et precis',
         'hero.title.main': 'Decouvrez les pannes de votre voiture',
@@ -144,10 +135,7 @@ function t(key) {
 function applyStaticTranslations() {
     const navLinks = document.querySelectorAll('header nav a');
     if (navLinks[0]) navLinks[0].textContent = t('nav.home');
-    if (navLinks[1]) navLinks[1].textContent = t('nav.engines');
-    if (navLinks[2]) navLinks[2].textContent = t('nav.videos');
     if (navLinks[3]) navLinks[3].textContent = t('nav.admin');
-    if (navLinks[4]) navLinks[4].textContent = t('nav.contact');
 
     const logoSub = document.querySelector('.logo-sub');
     if (logoSub) logoSub.textContent = t('logo.sub');
